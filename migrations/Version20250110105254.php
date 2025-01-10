@@ -7,9 +7,6 @@ namespace DoctrineMigrations;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\Migrations\AbstractMigration;
 
-/**
- * Auto-generated Migration: Please modify to your needs!
- */
 final class Version20250110105254 extends AbstractMigration
 {
     public function getDescription(): string
@@ -19,7 +16,6 @@ final class Version20250110105254 extends AbstractMigration
 
     public function up(Schema $schema): void
     {
-        // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE book DROP CONSTRAINT fk_cbe5a33169ccbe9a');
         $this->addSql('ALTER TABLE book DROP CONSTRAINT fk_cbe5a331c2428192');
         $this->addSql('DROP INDEX idx_cbe5a331c2428192');
@@ -49,7 +45,6 @@ final class Version20250110105254 extends AbstractMigration
 
     public function down(Schema $schema): void
     {
-        // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('CREATE SCHEMA public');
         $this->addSql('ALTER TABLE "user" DROP first_name');
         $this->addSql('ALTER TABLE "user" DROP last_name');
