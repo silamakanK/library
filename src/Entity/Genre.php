@@ -25,13 +25,14 @@ class Genre
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'genre_id')]
+    #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'genre')]
     private Collection $books;
 
     public function __construct()
     {
         $this->books = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -74,7 +75,7 @@ class Genre
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setGenreId($this);
+            $book->setGenre($this);
         }
 
         return $this;
@@ -84,8 +85,8 @@ class Genre
     {
         if ($this->books->removeElement($book)) {
             // set the owning side to null (unless already changed)
-            if ($book->getGenreId() === $this) {
-                $book->setGenreId(null);
+            if ($book->getGenre() === $this) {
+                $book->setGenre(null);
             }
         }
 

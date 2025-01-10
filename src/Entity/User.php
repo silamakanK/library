@@ -17,6 +17,12 @@ class User
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $first_name = null;
+
+    #[ORM\Column(length: 100)]
+    private ?string $last_name = null;
+
     #[ORM\Column(length: 255)]
     private ?string $email = null;
 
@@ -26,14 +32,14 @@ class User
     #[ORM\Column(type: Types::ARRAY)]
     private array $roles = [];
 
+    #[ORM\Column(length: 100)]
+    private ?string $username = null;
+
     /**
      * @var Collection<int, Discussion>
      */
-    #[ORM\OneToMany(targetEntity: Discussion::class, mappedBy: 'user_id')]
+    #[ORM\OneToMany(targetEntity: Discussion::class, mappedBy: 'utilisateur')]
     private Collection $discussions;
-
-    #[ORM\Column(length: 100)]
-    private ?string $username = null;
 
     public function __construct()
     {
@@ -43,6 +49,30 @@ class User
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->first_name;
+    }
+
+    public function setFirstName(string $first_name): static
+    {
+        $this->first_name = $first_name;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->last_name;
+    }
+
+    public function setLastName(string $last_name): static
+    {
+        $this->last_name = $last_name;
+
+        return $this;
     }
 
     public function getEmail(): ?string
@@ -81,6 +111,19 @@ class User
         return $this;
     }
 
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): static
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Discussion>
      */
@@ -93,7 +136,7 @@ class User
     {
         if (!$this->discussions->contains($discussion)) {
             $this->discussions->add($discussion);
-            $discussion->setUserId($this);
+            $discussion->setUtilisateur($this);
         }
 
         return $this;
@@ -103,22 +146,10 @@ class User
     {
         if ($this->discussions->removeElement($discussion)) {
             // set the owning side to null (unless already changed)
-            if ($discussion->getUserId() === $this) {
-                $discussion->setUserId(null);
+            if ($discussion->getUtilisateur() === $this) {
+                $discussion->setUtilisateur(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getUsername(): ?string
-    {
-        return $this->username;
-    }
-
-    public function setUsername(string $username): static
-    {
-        $this->username = $username;
 
         return $this;
     }

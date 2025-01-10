@@ -25,17 +25,21 @@ class Book
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $publish_date = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Author $author_id = null;
+    #[ORM\Column]
+    private ?int $number_of_copy = null;
 
     #[ORM\ManyToOne(inversedBy: 'books')]
-    private ?Genre $genre_id = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Author $author = null;
+
+    #[ORM\ManyToOne(inversedBy: 'books')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Genre $genre = null;
 
     /**
      * @var Collection<int, Discussion>
      */
-    #[ORM\OneToMany(targetEntity: Discussion::class, mappedBy: 'book_id')]
+    #[ORM\OneToMany(targetEntity: Discussion::class, mappedBy: 'book')]
     private Collection $discussions;
 
     public function __construct()
@@ -84,26 +88,38 @@ class Book
         return $this;
     }
 
-    public function getAuthorId(): ?Author
+    public function getNumberOfCopy(): ?int
     {
-        return $this->author_id;
+        return $this->number_of_copy;
     }
 
-    public function setAuthorId(?Author $author_id): static
+    public function setNumberOfCopy(int $number_of_copy): static
     {
-        $this->author_id = $author_id;
+        $this->number_of_copy = $number_of_copy;
 
         return $this;
     }
 
-    public function getGenreId(): ?Genre
+    public function getAuthor(): ?Author
     {
-        return $this->genre_id;
+        return $this->author;
     }
 
-    public function setGenreId(?Genre $genre_id): static
+    public function setAuthor(?Author $author): static
     {
-        $this->genre_id = $genre_id;
+        $this->author = $author;
+
+        return $this;
+    }
+
+    public function getGenre(): ?Genre
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?Genre $genre): static
+    {
+        $this->genre = $genre;
 
         return $this;
     }
@@ -120,7 +136,7 @@ class Book
     {
         if (!$this->discussions->contains($discussion)) {
             $this->discussions->add($discussion);
-            $discussion->setBookId($this);
+            $discussion->setBook($this);
         }
 
         return $this;
@@ -130,8 +146,8 @@ class Book
     {
         if ($this->discussions->removeElement($discussion)) {
             // set the owning side to null (unless already changed)
-            if ($discussion->getBookId() === $this) {
-                $discussion->setBookId(null);
+            if ($discussion->getBook() === $this) {
+                $discussion->setBook(null);
             }
         }
 

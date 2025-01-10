@@ -21,11 +21,12 @@ class Discussion
     private ?\DateTimeInterface $publish_date = null;
 
     #[ORM\ManyToOne(inversedBy: 'discussions')]
-    private ?User $user_id = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Book $book = null;
 
     #[ORM\ManyToOne(inversedBy: 'discussions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?Book $book_id = null;
+    private ?User $utilisateur = null;
 
     public function getId(): ?int
     {
@@ -56,26 +57,26 @@ class Discussion
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getBook(): ?Book
     {
-        return $this->user_id;
+        return $this->book;
     }
 
-    public function setUserId(?User $user_id): static
+    public function setBook(?Book $book): static
     {
-        $this->user_id = $user_id;
+        $this->book = $book;
 
         return $this;
     }
 
-    public function getBookId(): ?Book
+    public function getUtilisateur(): ?User
     {
-        return $this->book_id;
+        return $this->utilisateur;
     }
 
-    public function setBookId(?Book $book_id): static
+    public function setUtilisateur(?User $utilisateur): static
     {
-        $this->book_id = $book_id;
+        $this->utilisateur = $utilisateur;
 
         return $this;
     }

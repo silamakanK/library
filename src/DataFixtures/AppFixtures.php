@@ -63,11 +63,11 @@ class AppFixtures extends Fixture
             for ($i = 0; $i < self::BOOK_PER_AUTHOR; $i++) {
                 $book = new Book();
                 $book->setTitle(title: "Book {$i}");
-                $book->setDescription(description: "Description {$i}");
+                $book->setDescription(description: "Description du Book {$i}");
                 $book->setPublishDate(new \DateTime());
-                $book->setNumberCopy(number_copy: 5);
-                $book->setAuthorId($author);
-                $book->setGenreId($genres[array_rand($genres)]);
+                $book->setNumberOfCopy(number_of_copy: 5);
+                $book->setAuthor($author);
+                $book->setGenre($genres[array_rand($genres)]);
                 $books[] = $book;
 
                 $manager->persist(object: $book);
@@ -142,8 +142,8 @@ class AppFixtures extends Fixture
                 $discussion = new Discussion();
                 $discussion->setContent(content: "Discussion {$i}");
                 $discussion->setPublishDate(new \DateTime());
-                $discussion->setUserId($user);
-                $discussion->setBookId($books[array_rand($books)]);
+                $discussion->setUtilisateur($user);
+                $discussion->setBook($books[array_rand($books)]);
                 $discussions[] = $discussion;
 
                 $manager->persist(object: $discussion);
