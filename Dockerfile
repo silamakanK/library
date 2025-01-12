@@ -1,15 +1,25 @@
-FROM php:8.2-cli
+FROM php:8.3-cli
 
 RUN apt-get update && apt-get install -y \
-    libpq-dev git unzip && \
-    docker-php-ext-install pdo pdo_pgsql
+    git \
+    unzip \
+    zip \
+    curl \
+    libpq-dev \
+    libicu-dev \
+    libonig-dev \
+    libxml2-dev \
+    libzip-dev \
+    && docker-php-ext-install pdo pdo_pgsql intl zip mbstring xml
 
-COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
+COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
+
+RUN git config --global --add safe.directory /var/www/html
 
 WORKDIR /var/www/html
 
-COPY . .
+COPY . /var/www/html
 
-RUN composer install
+RUN chown -R www-data:www-data /var/www/html
 
 CMD ["bash"]

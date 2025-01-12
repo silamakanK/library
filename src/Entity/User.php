@@ -7,10 +7,12 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\Table(name: '`user`')]
-class User
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -35,9 +37,16 @@ class User
     #[ORM\OneToMany(targetEntity: Discussion::class, mappedBy: 'utilisateur')]
     private Collection $discussions;
 
+    /**
+     * @var Collection<int, Borrow>
+     */
+    #[ORM\OneToMany(targetEntity: Borrow::class, mappedBy: 'utilisateur')]
+    private Collection $borrows;
+
     public function __construct()
     {
         $this->discussions = new ArrayCollection();
+        $this->borrows = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +127,47 @@ class User
             // set the owning side to null (unless already changed)
             if ($discussion->getUtilisateur() === $this) {
                 $discussion->setUtilisateur(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function eraseCredentials(): void
+    {
+        // TODO: Implement eraseCredentials() method.
+    }
+
+    public function getUserIdentifier(): string
+    {
+        // TODO: Implement getUserIdentifier() method.
+
+    }
+
+    /**
+     * @return Collection<int, Borrow>
+     */
+    public function getBorrows(): Collection
+    {
+        return $this->borrows;
+    }
+
+    public function addBorrow(Borrow $borrow): static
+    {
+        if (!$this->borrows->contains($borrow)) {
+            $this->borrows->add($borrow);
+            $borrow->setUtilisateur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBorrow(Borrow $borrow): static
+    {
+        if ($this->borrows->removeElement($borrow)) {
+            // set the owning side to null (unless already changed)
+            if ($borrow->getUtilisateur() === $this) {
+                $borrow->setUtilisateur(null);
             }
         }
 

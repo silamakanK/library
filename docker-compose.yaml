@@ -1,16 +1,21 @@
 services:
+  app:
+    container_name: app_container
+    build:
+        context: .
+        dockerfile: Dockerfile
+    volumes:
+      - .:/var/www/html
+    ports:
+      - "9000:9000"
+
   database:
     image: postgres
-    container_name: db_library_container
+    container_name: db_container
     environment:
       POSTGRES_DB: db_library
       POSTGRES_PASSWORD: passer
       POSTGRES_USER: root
-    healthcheck:
-      test: ["CMD", "pg_isready", "-d", "${POSTGRES_DB:-app}", "-U", "${POSTGRES_USER:-app}"]
-      timeout: 5s
-      retries: 5
-      start_period: 60s
     volumes:
       - database_data:/var/lib/postgresql/data:rw
     ports:
@@ -22,8 +27,7 @@ services:
     ports:
       - "8080:8080"
     depends_on:
-      database:
-        condition: service_healthy
+      - database
 
 volumes:
   database_data:
