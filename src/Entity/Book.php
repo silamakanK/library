@@ -22,36 +22,24 @@ class Book
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $description = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    /**
+     * @var Collection<int, Author>
+     */
+    #[ORM\ManyToMany(targetEntity: Author::class, inversedBy: 'books')]
+    private Collection $author;
+
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $publish_date = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $number_of_copy = null;
 
-    #[ORM\ManyToOne(inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Author $author = null;
-
-    #[ORM\ManyToOne(inversedBy: 'books')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?Genre $genre = null;
-
-    /**
-     * @var Collection<int, Discussion>
-     */
-    #[ORM\OneToMany(targetEntity: Discussion::class, mappedBy: 'book')]
-    private Collection $discussions;
-
-    /**
-     * @var Collection<int, Borrow>
-     */
-    #[ORM\OneToMany(targetEntity: Borrow::class, mappedBy: 'book')]
-    private Collection $borrows;
+    #[ORM\Column(length: 255)]
+    private ?string $picture = null;
 
     public function __construct()
     {
-        $this->discussions = new ArrayCollection();
-        $this->borrows = new ArrayCollection();
+        $this->author = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -83,6 +71,30 @@ class Book
         return $this;
     }
 
+    /**
+     * @return Collection<int, Author>
+     */
+    public function getAuthor(): Collection
+    {
+        return $this->author;
+    }
+
+    public function addAuthor(Author $author): static
+    {
+        if (!$this->author->contains($author)) {
+            $this->author->add($author);
+        }
+
+        return $this;
+    }
+
+    public function removeAuthor(Author $author): static
+    {
+        $this->author->removeElement($author);
+
+        return $this;
+    }
+
     public function getPublishDate(): ?\DateTimeInterface
     {
         return $this->publish_date;
@@ -100,93 +112,21 @@ class Book
         return $this->number_of_copy;
     }
 
-    public function setNumberOfCopy(int $number_of_copy): static
+    public function setNumberOfCopy(?int $number_of_copy): static
     {
         $this->number_of_copy = $number_of_copy;
 
         return $this;
     }
 
-    public function getAuthor(): ?Author
+    public function getPicture(): ?string
     {
-        return $this->author;
+        return $this->picture;
     }
 
-    public function setAuthor(?Author $author): static
+    public function setPicture(string $picture): static
     {
-        $this->author = $author;
-
-        return $this;
-    }
-
-    public function getGenre(): ?Genre
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(?Genre $genre): static
-    {
-        $this->genre = $genre;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Discussion>
-     */
-    public function getDiscussions(): Collection
-    {
-        return $this->discussions;
-    }
-
-    public function addDiscussion(Discussion $discussion): static
-    {
-        if (!$this->discussions->contains($discussion)) {
-            $this->discussions->add($discussion);
-            $discussion->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeDiscussion(Discussion $discussion): static
-    {
-        if ($this->discussions->removeElement($discussion)) {
-            // set the owning side to null (unless already changed)
-            if ($discussion->getBook() === $this) {
-                $discussion->setBook(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Borrow>
-     */
-    public function getBorrows(): Collection
-    {
-        return $this->borrows;
-    }
-
-    public function addBorrow(Borrow $borrow): static
-    {
-        if (!$this->borrows->contains($borrow)) {
-            $this->borrows->add($borrow);
-            $borrow->setBook($this);
-        }
-
-        return $this;
-    }
-
-    public function removeBorrow(Borrow $borrow): static
-    {
-        if ($this->borrows->removeElement($borrow)) {
-            // set the owning side to null (unless already changed)
-            if ($borrow->getBook() === $this) {
-                $borrow->setBook(null);
-            }
-        }
+        $this->picture = $picture;
 
         return $this;
     }

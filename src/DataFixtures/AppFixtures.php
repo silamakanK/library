@@ -7,6 +7,7 @@ use App\Entity\Discussion;
 use App\Entity\Author;
 use App\Entity\Genre;
 use App\Entity\User;
+use App\Enum\GenderStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -26,17 +27,16 @@ class AppFixtures extends Fixture
         $books = [];
         $discussions = [];
 
-        $this->createUsers($manager, $users);
+//        $this->createUsers($manager, $users);
         $this->createAuthors($manager, $authors);
         $this->createGenres($manager, $genres);
         $this->createBooks($manager, $books, $authors, $genres);
-        $this->createDiscussions($manager, $discussions, $users, $books);
+//        $this->createDiscussions($manager, $discussions, $users, $books);
 
         $manager->flush();
-
     }
 
-    protected function createUsers(ObjectManager $manager, array &$users): void
+   /* protected function createUsers(ObjectManager $manager, array &$users): void
     {
         for ($i = 0; $i < self::MAX_USERS; $i++) {
             $user = new User();
@@ -44,6 +44,7 @@ class AppFixtures extends Fixture
             $user->setUsername(username: "test_{$i}");
             $user->setPassword(password: 'passer');
             $user->setRoles(roles: ['USER']);
+            $user->setGender(gender: 'M');
             $users[] = $user;
 
             $manager->persist(object: $user);
@@ -53,9 +54,10 @@ class AppFixtures extends Fixture
         $admin->setEmail(email: "admin@example.com");
         $admin->setUsername(username: "admin");
         $admin->setPassword('passer');
+        $admin->setGender(gender: 'M');
         $admin->setRoles(['ADMIN']);
         $manager->persist($admin);
-    }
+    }*/
 
     protected function createBooks(ObjectManager $manager, array &$books, array &$authors, array &$genres): void
     {
@@ -66,8 +68,9 @@ class AppFixtures extends Fixture
                 $book->setDescription(description: "Description du Book {$i}");
                 $book->setPublishDate(new \DateTime());
                 $book->setNumberOfCopy(number_of_copy: 5);
-                $book->setAuthor($author);
+                $book->setAuthor(',$author->getFullName(),');
                 $book->setGenre($genres[array_rand($genres)]);
+                $book->setPicture(picture: 'https://imgs.search.brave.com/47UumTPxdAqJ7RACY2hm_gdia8Pz_A_cMh4O612bNaY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Y3VsdHVyYS5jb20v/Y2RuLWNnaS9pbWFn/ZS93aWR0aD0yNTAv/bWVkaWEvcGltL1RJ/VEVMSVZFLzQ2Xzk3/ODI4OTIyNTk1NTFf/MV83NS5qcGc');
                 $books[] = $book;
 
                 $manager->persist(object: $book);
@@ -79,8 +82,8 @@ class AppFixtures extends Fixture
     {
         for ($i = 0; $i < self::MAX_AUTHORS; $i++) {
             $author = new Author();
-            $author->setFirstName(first_name: "Author {$i}");
-            $author->setLastName(last_name: "Author {$i}");
+            $author->setFullName(full_name: "Author {$i}");
+            $author->setGender(gender: GenderStatus::MALE);
             $author->setBiography(biography: 'Lorem Ipsum');
             $authors[] = $author;
 
@@ -135,7 +138,7 @@ class AppFixtures extends Fixture
         }
     }
 
-    protected function createDiscussions(ObjectManager $manager, array &$discussions, array &$users, array &$books): void
+    /*protected function createDiscussions(ObjectManager $manager, array &$discussions, array &$users, array &$books): void
     {
         foreach ($users as $user) {
             for ($i = 0; $i < self::MAX_DISCUSSIONS_PER_USER; $i++) {
@@ -150,5 +153,5 @@ class AppFixtures extends Fixture
             }
         }
 
-    }
+    }*/
 }

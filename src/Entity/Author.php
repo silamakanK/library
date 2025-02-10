@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enum\GenderStatus;
 use App\Repository\AuthorRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,11 +17,11 @@ class Author
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $first_name = null;
+    #[ORM\Column(length: 255)]
+    private ?string $full_name = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $last_name = null;
+    #[ORM\Column(type: 'string', enumType: GenderStatus::class)]
+    private ?GenderStatus $gender = null;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $biography = null;
@@ -28,7 +29,7 @@ class Author
     /**
      * @var Collection<int, Book>
      */
-    #[ORM\OneToMany(targetEntity: Book::class, mappedBy: 'author')]
+    #[ORM\ManyToMany(targetEntity: Book::class, mappedBy: 'author')]
     private Collection $books;
 
     public function __construct()
@@ -41,26 +42,26 @@ class Author
         return $this->id;
     }
 
-    public function getFirstName(): ?string
+    public function getFullName(): ?string
     {
-        return $this->first_name;
+        return $this->full_name;
     }
 
-    public function setFirstName(string $first_name): static
+    public function setFullName(string $full_name): static
     {
-        $this->first_name = $first_name;
+        $this->full_name = $full_name;
 
         return $this;
     }
 
-    public function getLastName(): ?string
+    public function getGender(): ?GenderStatus
     {
-        return $this->last_name;
+        return $this->gender;
     }
 
-    public function setLastName(string $last_name): static
+    public function setGender(GenderStatus $gender): static
     {
-        $this->last_name = $last_name;
+        $this->gender = $gender;
 
         return $this;
     }
@@ -89,7 +90,7 @@ class Author
     {
         if (!$this->books->contains($book)) {
             $this->books->add($book);
-            $book->setAuthor($this);
+            $book->addAuthor($this);
         }
 
         return $this;
@@ -98,10 +99,7 @@ class Author
     public function removeBook(Book $book): static
     {
         if ($this->books->removeElement($book)) {
-            // set the owning side to null (unless already changed)
-            if ($book->getAuthor() === $this) {
-                $book->setAuthor(null);
-            }
+            $book->removeAuthor($this);
         }
 
         return $this;

@@ -4,11 +4,8 @@ namespace App\Form;
 
 use App\Entity\Author;
 use App\Entity\Book;
-use App\Entity\Genre;
-use App\Enum\GenreStatus;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EnumType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -25,15 +22,10 @@ class BookType extends AbstractType
             ->add('number_of_copy')
             ->add('author', EntityType::class, [
                 'class' => Author::class,
-                'choice_label' => 'id',
+                'choice_label' => 'full_name',
+                'multiple' => true,
             ])
-            ->add('genre', EnumType::class, [
-                'class' => GenreStatus::class,
-                'required' => true,
-                'label' => 'Genre',
-                'multiple' => false,
-                'expanded' => false,
-            ])
+            ->add('picture')
         ;
     }
 
