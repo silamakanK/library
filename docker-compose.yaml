@@ -1,13 +1,13 @@
 services:
-  app:
-    container_name: app_container
-    build:
-        context: .
-        dockerfile: Dockerfile
-    volumes:
-      - .:/var/www/html
-    ports:
-      - "9000:9000"
+#  app:
+#    container_name: app_container
+#    build:
+#        context: .
+#        dockerfile: Dockerfile
+#    volumes:
+#      - .:/var/www/html
+#    ports:
+#      - "9000:9000"
 
   database:
     image: postgres
