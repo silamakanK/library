@@ -5,39 +5,27 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="eb8c9ad3-87c8-429d-94f2-fcf3087f5e40" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/migrations/Version20250210104659.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Controller/lastAdminController.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/lastadmin/show_user.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.env" beforeDir="false" afterPath="$PROJECT_DIR$/.env" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/library.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/library.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20250210012225.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/AuthorController.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BookController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/notifier.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/notifier.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config/routes.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/routes.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20250210104659.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20250210112121.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20250210114002.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/SecurityController.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/DataFixtures/AppFixtures.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Author.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Book.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Borrow.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Discussion.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Genre.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Enum/GenreStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Enum/GenderStatus.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/AuthorType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BookType.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/AuthorRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/BookRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/BorrowRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/DiscussionRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/GenreRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/author/_delete_form.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/author/_form.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/author/edit.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/author/index.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/author/new.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/author/show.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/book/_delete_form.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/book/_form.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/book/edit.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/book/index.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/book/new.html.twig" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/book/show.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Book.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Book.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Genre.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Genre.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Enum/GenderStatus.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Enum/GenderStatus.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/registration/index.html.twig" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/security/login.html.twig" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -197,6 +185,8 @@
       <path value="$PROJECT_DIR$/vendor/symfony/finder" />
       <path value="$PROJECT_DIR$/vendor/symfony/dependency-injection" />
       <path value="$PROJECT_DIR$/vendor/doctrine/instantiator" />
+      <path value="$PROJECT_DIR$/vendor/symfonycasts/verify-email-bundle" />
+      <path value="$PROJECT_DIR$/vendor/symfonycasts/reset-password-bundle" />
     </include_path>
   </component>
   <component name="ProjectColorInfo">{
@@ -265,7 +255,10 @@
       <workItem from="1738530772772" duration="1910000" />
       <workItem from="1738927226034" duration="2297000" />
       <workItem from="1739144877686" duration="2264000" />
-      <workItem from="1739180934632" duration="7281000" />
+      <workItem from="1739180934632" duration="8517000" />
+      <workItem from="1739201256485" duration="6573000" />
+      <workItem from="1739268487280" duration="18904000" />
+      <workItem from="1739360359430" duration="994000" />
     </task>
     <servers />
   </component>

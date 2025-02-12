@@ -1,0 +1,94 @@
+{% extends 'layouts/base.html.twig' %}
+
+{% block title %} Show Users {% endblock %}
+
+
+{% block body %}
+    <h1>User index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>Gender</th>
+                <th>Full_name</th>
+                <th>IsVerified</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ user.gender.value }}</td>
+                <td>{{ user.fullName }}</td>
+                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_show_user', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('app_admin_edit_user', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+{#<div class="relative overflow-x-auto shadow-md sm:rounded-lg">#}
+{#    <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">#}
+{#        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">#}
+{#        <tr>#}
+{#            <th scope="col" class="px-6 py-3">Id</th>#}
+{#            <th scope="col" class="px-6 py-3">FullName</th>#}
+{#            <th scope="col" class="px-6 py-3">Gender</th>#}
+{#            <th scope="col" class="px-6 py-3">Email</th>#}
+{#            <th scope="col" class="px-6 py-3">Password</th>#}
+{#            <th scope="col" class="px-6 py-3">Roles</th>#}
+{#            <th scope="col" class="px-6 py-3">Actions</th>#}
+{#        </tr>#}
+{#        </thead>#}
+{#        <tbody>#}
+{#        {% for user in users %}#}
+{#            <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200">#}
+{#                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">#}
+{#                    {{ user.id }}#}
+{#                </th>#}
+{#                <th scope="row" class="px-6 py-4">#}
+{#                    {{ user.full_name}}#}
+{#                </th>#}
+{#                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">#}
+{#                    {{ user.gender.value }}#}
+{#                </th>#}
+{#                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">#}
+{#                    {{ user.email }}#}
+{#                </th>#}
+{#                <td class="px-6 py-4">#}
+{#                    {{ user.password }}#}
+{#                </td>#}
+{#                <td class="px-6 py-4">#}
+{#                    {{ user.roles }}#}
+{#                </td>#}
+{#                <td>#}
+{#                    <a href="{{ path('app_admin_show_user', {'id': user.id}) }}">show</a>#}
+{#                    <a href="{{ path('app_admin_edit_user', {'id': user.id}) }}">edit</a>#}
+{#                </td>#}
+{#            </tr>#}
+{#        {% else %}#}
+{#            <p class="px-6 py-4">#}
+{#                Sorry, no results were found.#}
+{#            </p>#}
+{#        {% endfor %}#}
+{#        </tbody>#}
+{#    </table>#}
+{#</div>#}
+
+    <a href="{{ path('app_admin_new') }}">Create new</a>
+{% endblock %}

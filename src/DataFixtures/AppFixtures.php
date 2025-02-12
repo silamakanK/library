@@ -3,13 +3,13 @@
 namespace App\DataFixtures;
 
 use App\Entity\Book;
-use App\Entity\Discussion;
 use App\Entity\Author;
 use App\Entity\Genre;
 use App\Entity\User;
 use App\Enum\GenderStatus;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class AppFixtures extends Fixture
 {
@@ -18,6 +18,12 @@ class AppFixtures extends Fixture
     public const MAX_AUTHORS = 10;
     public const BOOK_PER_AUTHOR = 3;
     public const MAX_DISCUSSIONS_PER_USER = 3;
+    private UserPasswordHasherInterface $passwordHasher;
+
+    public function __construct(UserPasswordHasherInterface $passwordHasher)
+    {
+        $this->passwordHasher = $passwordHasher;
+    }
 
     public function load(ObjectManager $manager): void
     {
@@ -27,7 +33,7 @@ class AppFixtures extends Fixture
         $books = [];
         $discussions = [];
 
-//        $this->createUsers($manager, $users);
+        $this->createUsers($manager, $users);
         $this->createAuthors($manager, $authors);
         $this->createGenres($manager, $genres);
         $this->createBooks($manager, $books, $authors, $genres);
@@ -36,28 +42,36 @@ class AppFixtures extends Fixture
         $manager->flush();
     }
 
-   /* protected function createUsers(ObjectManager $manager, array &$users): void
+   protected function createUsers(ObjectManager $manager, array &$users): void
     {
         for ($i = 0; $i < self::MAX_USERS; $i++) {
             $user = new User();
-            $user->setEmail(email: "test_{$i}@example.com");
-            $user->setUsername(username: "test_{$i}");
-            $user->setPassword(password: 'passer');
-            $user->setRoles(roles: ['USER']);
-            $user->setGender(gender: 'M');
+            $user->setEmail(email: "user{$i}@example.com");
+            $user->setFullName(full_name: "test_{$i}");
+            $user->setPassword($this->passwordHasher->hashPassword($user, 'passer'));            $user->setRoles(roles: ['USER']);
+            $user->setGender(GenderStatus::MALE);
+            $user->setRoles(['ROLE_USER']);
             $users[] = $user;
 
             $manager->persist(object: $user);
         }
 
         $admin = new User();
-        $admin->setEmail(email: "admin@example.com");
-        $admin->setUsername(username: "admin");
-        $admin->setPassword('passer');
-        $admin->setGender(gender: 'M');
-        $admin->setRoles(['ADMIN']);
+        $admin->setEmail(email: "lastadmin@example.com");
+        $admin->setFullName(full_name: "Le Boss");
+        $admin->setPassword($this->passwordHasher->hashPassword($admin, 'lastadmin'));
+        $admin->setGender(GenderStatus::MALE);
+        $admin->setRoles(['ROLE_ADMIN']);
         $manager->persist($admin);
-    }*/
+
+        $banned = new User();
+        $banned->setEmail("banned@example.com");
+        $banned->setFullName("Banned User");
+        $banned->setPassword($this->passwordHasher->hashPassword($banned, 'banned'));
+        $banned->setRoles(['ROLE_BANNED']);
+        $banned->setGender(GenderStatus::FEMALE);
+        $manager->persist($banned);
+    }
 
     protected function createBooks(ObjectManager $manager, array &$books, array &$authors, array &$genres): void
     {
@@ -68,7 +82,7 @@ class AppFixtures extends Fixture
                 $book->setDescription(description: "Description du Book {$i}");
                 $book->setPublishDate(new \DateTime());
                 $book->setNumberOfCopy(number_of_copy: 5);
-                $book->setAuthor(',$author->getFullName(),');
+                $book->addAuthor($author);
                 $book->setGenre($genres[array_rand($genres)]);
                 $book->setPicture(picture: 'https://imgs.search.brave.com/47UumTPxdAqJ7RACY2hm_gdia8Pz_A_cMh4O612bNaY/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9jZG4u/Y3VsdHVyYS5jb20v/Y2RuLWNnaS9pbWFn/ZS93aWR0aD0yNTAv/bWVkaWEvcGltL1RJ/VEVMSVZFLzQ2Xzk3/ODI4OTIyNTk1NTFf/MV83NS5qcGc');
                 $books[] = $book;
